@@ -1,42 +1,47 @@
-import axios from 'axios'
-import { useState, useEffect } from 'react'
-import './App.css'
-import Posts from './components/Posts'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Posts from "./components/Posts";
 
 function App() {
-  const [users, setUsers] = useState(null)
-  const [selectUsers, setSelectUsers] = useState(null)
+  const [users, setUsers] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-  const handleChange = (e) => {
-    setSelectUsers(e.target.value)
+  function handleChange(e) {
+    const selectedId = e.target.value;
+    const findUser = users.find(user => user.id == selectedId);
+    
+    setSelectedUser(findUser);
   }
 
   useEffect(() => {
     axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(res => {
-        setUsers(res.data)
+      .get("https://jsonplaceholder.typicode.com/users")
+      .then((response) => {
+        setUsers(response.data);
       })
-      .catch(err => {
-        console.log(err)
-      })
-  }, [])
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
-    <div className="">
-      <select onChange={handleChange} >
-        <option value={''}>---- </option>
-        {users && users.map(user => {
+    <div>
+      <select onChange={handleChange}>
+        <option value={""}>---</option>
+        {users?.map((user) => {
           return (
-            <option key={user.id} value={user.name}>{user.name}</option>
-          )
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          );
         })}
       </select>
-      
-      <h1> Selected User: {selectUsers ? selectUsers : ' No users'}</h1>
-      <Posts />
+      <h1>
+        Selected User: {selectedUser ? selectedUser?.name : "no user selected "}{" "}
+      </h1>
+      <Posts selectedId={selectedUser?.id} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
