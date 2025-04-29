@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Posts from "./components/Posts";
 import Maths from "./components/Maths";
+import Salary from "./components/Salary";
 
 function App() {
   const [users, setUsers] = useState(null);
@@ -42,6 +43,7 @@ function App() {
       </h1>
       <Posts selectedId={selectedUser?.id} />
       <Maths/>
+      <Salary/>
     </div>
   );
 }
