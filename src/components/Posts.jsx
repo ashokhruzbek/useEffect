@@ -1,25 +1,34 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import '../App.css'
 
-function Posts() {
-    const [posts, setPosts] = useState([]);
+function Posts({ selectedId }) {
+    const [posts, setPosts] = useState(null)
+
     useEffect(() => {
-        axios
-            .get('https://jsonplaceholder.typicode.com/users/2/posts')
-            .then((response) => {
-                setPosts(response.data)
-            }).catch((err) => {
-                console.log(err);
-            })
-    }, [])
+        if (selectedId) {
+            axios
+                .get(`https://jsonplaceholder.typicode.com/users/${selectedId}/posts`)
+                .then(response => {
+                    setPosts(response.data)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }, [selectedId])
+
 
     return (
-        <div>
-
-            {posts?.map((post,index) => {
-                return <p key={post.id}> {index+1}.  {post.title}</p>
+        <div className='posts'>
+            {posts?.map((post, index) => {
+                return (
+                    <div className='card' key={post.id}>
+                        <p className='card-title'>{index + 1}. {post.title}</p>
+                        {/* <p className='card-body'>{post.body}</p> */}
+                    </div>
+                )
             })}
-
         </div>
     )
 }
