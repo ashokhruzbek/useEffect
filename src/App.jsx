@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Posts from "./components/Posts";
+import Maths from "./components/Maths";
 
 function App() {
   const [users, setUsers] = useState(null);
@@ -40,6 +41,7 @@ function App() {
         Selected User: {selectedUser ? selectedUser?.name : "no user selected "}{" "}
       </h1>
       <Posts selectedId={selectedUser?.id} />
+      <Maths/>
     </div>
   );
 }
